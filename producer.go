@@ -36,12 +36,9 @@ func main() {
 	}
 
 	// Create stream
-	k := kinesis.New(&kinesis.Auth{}, kinesis.Region{})
-	err := k.CreateStream(streamName, 1)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println("Created stream")
+	auth := kinesis.NewAuth()
+	auth.InferCredentialsFromEnv()
+	k := kinesis.New(&auth, kinesis.Region{})
 
 	// Batch insert records
 	args := kinesis.NewArgs()
@@ -55,7 +52,7 @@ func main() {
 	if err != nil {
 		fmt.Printf("PutRecords err: %v\n", err)
 	} else {
-		fmt.Printf("PutRecords: %v\n", resp)
+		fmt.Printf("PutRecords: %+v\n", resp)
 	}
 	fmt.Println("Batch sent messages to AWS Kinesis")
 }
