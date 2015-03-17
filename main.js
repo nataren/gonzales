@@ -1,6 +1,6 @@
 var child_process = require('child_process');
 
-exports.handler = function(event, context) {
+exports.ingest = function(event, context) {
   var proc = child_process.spawn('./consumer', [ JSON.stringify(event) ], { stdio: 'inherit' });
 
   proc.on('close', function(code) {
